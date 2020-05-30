@@ -604,7 +604,8 @@ extension MMPlayerLayer {
             self?.isBackgroundPause = false
         })
         
-        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player, queue: nil, using: { [weak self] (_) in
+        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: nil, using: { [weak self] notification in
+            guard let item = notification.object as? AVPlayerItem, item === self?.player?.currentItem else { return }
           
             if self?.repeatWhenEnd == true {
                 self?.player?.seek(to: CMTime.zero)
